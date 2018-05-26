@@ -1,0 +1,14 @@
+<div class="imgContainer">
+    <%= for {photo,i} <- Enum.with_index(split_items(@photos,1)) do %>
+        <%= render "imgPreview.html", conn: @conn, photo: photo, photo_id: photo.id, index: i %>
+    <% end %>
+
+    <%= if assigns[:page] && assigns[:page].page_number < assigns[:page].total_pages do %>
+        <div ic-append-from= <%= photo_path(@conn, :index, page: increment_page(assigns[:page].page_number)) %> ic-trigger-on="scrolled-into-view" ic-trigger-delay="150ms" ic-target="#container" ic-indicator="#spinner" ic-deps="ignore">
+        </div>
+    <% end %>
+  
+    <%= for {photo,i} <- Enum.with_index(split_items(@photos,2)) do %>
+        <%= render "imgPreview.html", conn: @conn, photo: photo, photo_id: photo.id, index: i %>
+    <% end %>
+</div>

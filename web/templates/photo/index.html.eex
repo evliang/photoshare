@@ -1,0 +1,7 @@
+<%= link "+", to: photo_path(@conn, :new) %>
+
+<div id="container">
+  <div class="imgListContainer1">
+    <%= render "imglist.html", conn: @conn, page: @page, photos: @photos %>
+  </div>
+</div>
