@@ -1,7 +1,7 @@
 defmodule Photoshare.PageController do
   use Photoshare.Web, :controller
 
-  def index(conn, _params) do
-    render conn, "index.html"
+  def index(conn, params) do
+    Photoshare.PhotoController.index(conn, params)
   end
 end

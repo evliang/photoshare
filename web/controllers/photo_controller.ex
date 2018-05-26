@@ -18,7 +18,7 @@ defmodule Photoshare.PhotoController do
       Photo
       |> order_by(desc: :id)
       |> Repo.paginate(params)
-    render(conn, "index.html", photos: page.entries, page: page)
+    render(conn, Photoshare.PhotoView, "index.html", photos: page.entries, page: page)
   end
 
   def new(conn, _params) do
