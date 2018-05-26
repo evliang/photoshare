@@ -1,0 +1,8 @@
+<div class="imgContainer2">
+    <a href=<%= @photo.path%> target="_blank">
+        <img class="img" src=<%= @photo.resized_path %> />
+        <div class="favdiv" id =<%= @photo.id %>>
+            <img class="notfavimg" src=<%= static_path(@conn, "/images/heart.png") %> />
+        </div>
+    </a>
+</div>
