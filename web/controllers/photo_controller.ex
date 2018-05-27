@@ -4,6 +4,9 @@ defmodule Photoshare.PhotoController do
   alias Mogrify
   alias Photoshare.Photo
 
+  @sbucket_name System.get_env("SBUCKET_NAME")
+  @lbucket_name System.get_env("LBUCKET_NAME")
+
   def index(conn, %{"page" => p}) do
     IO.puts "yo"
     page =
@@ -47,18 +50,20 @@ defmodule Photoshare.PhotoController do
     end
   end
 
+  defp normalize_filename(filename) do
+    String.replace(filename, " ", "") |> URI.encode
+  end
+
   #inefficient fo sho. reading in image 3x with File.read, Mogrify, identify
   defp add_photo(photo_params) do
-    unique_filename = "#{UUID.uuid4(:hex)}-#{photo_params.filename}"
-    {:ok, img_binary} = File.read(photo_params.path |> IO.inspect)
-    sbucket_name = System.get_env("SBUCKET_NAME")
-    lbucket_name = System.get_env("LBUCKET_NAME")
+    unique_filename = "#{UUID.uuid4(:hex)}-#{normalize_filename(photo_params.filename)}"
+    {:ok, img_binary} = File.read(photo_params.path)
 
     aws_result1 =
-      ExAws.S3.put_object(lbucket_name, unique_filename, img_binary)
+      ExAws.S3.put_object(@lbucket_name, unique_filename, img_binary)
       |> ExAws.request
     
-    exif_map = create_exif_map(photo_params.path) |> IO.inspect
+    exif_map = create_exif_map(photo_params.path)
     
     new_file =
       case exif_map[:orientation] do
@@ -80,7 +85,7 @@ defmodule Photoshare.PhotoController do
         _ ->
           {:ok, img_binary} = File.read("temp.jpg")
           IO.puts "inserting aws2"
-          ExAws.S3.put_object(sbucket_name, unique_filename, img_binary)
+          ExAws.S3.put_object(@sbucket_name, unique_filename, img_binary)
           |> ExAws.request
       end
 
@@ -88,10 +93,9 @@ defmodule Photoshare.PhotoController do
       {{:ok, _}, {:ok, _}} ->
         Photo.changeset(%Photo{},
                 %{filename: unique_filename,
-                path: "https://s3-us-west-2.amazonaws.com/#{lbucket_name}/#{unique_filename}",
-                resized_path: "https://s3-us-west-2.amazonaws.com/#{sbucket_name}/#{unique_filename}"}
-                |> Map.merge(exif_map)
-                |> IO.inspect)
+                path: "https://s3-us-west-2.amazonaws.com/#{@lbucket_name}/#{unique_filename}",
+                resized_path: "https://s3-us-west-2.amazonaws.com/#{@sbucket_name}/#{unique_filename}"}
+                |> Map.merge(exif_map))
         |> Repo.insert
       {{:ok, _}, _} ->
         aws_result2
@@ -117,7 +121,6 @@ defmodule Photoshare.PhotoController do
   defp extract_exif_helper(str) do
     str
     |> String.split("\n")
-    |> IO.inspect
     |> Enum.map(fn str ->
         case str do
           "exif:GPSLatitude=" <> latitude ->
@@ -144,11 +147,24 @@ defmodule Photoshare.PhotoController do
     render(conn, "show.html", photo: photo)
   end
 
+  defp get_filename(str) do
+    str
+    |> String.split("/")
+    |> Enum.at(-1)
+  end
+
   def delete(conn, %{"id" => id}) do
     photo = Repo.get!(Photo, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
+
+    ExAws.S3.delete_object(@lbucket_name, get_filename(photo.path))
+    |> ExAws.request
+
+    ExAws.S3.delete_object(@sbucket_name, get_filename(photo.resized_path))
+    |> ExAws.request
+
     Repo.delete!(photo)
 
     conn

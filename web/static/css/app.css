@@ -5,13 +5,6 @@
     background-color: #f3f3f3;
 }
 
-.imgListContainer1 {
-    margin: 0 auto;
-    width: 100%;
-    font-size: 0;
-    text-align: center;
-}
-
 .imgContainer {
     display: inline-block;
     position: relative;
@@ -29,12 +22,22 @@
 .img {
     display: block;
     width: 100%;
+    cursor: default;
+}
+
+.deleteImg {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    cursor: pointer;
 }
 
 .favdiv {
     display: inline-block;
     position: absolute;
-    top: 10px;
+    bottom: 10px;
     left: 10px;
     z-index: 1;
     cursor: pointer;

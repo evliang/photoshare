@@ -1,8 +1,11 @@
-<div class="imgContainer2">
-    <a href=<%= @photo.path%> target="_blank">
-        <img class="img" src=<%= @photo.resized_path %> />
-        <div class="favdiv" id =<%= @photo.id %>>
-            <img class="notfavimg" src=<%= static_path(@conn, "/images/heart.png") %> />
+<div class="imgContainer3">
+    <%= link to: @photo.path, target: "_blank" do %>
+        <div class="imgContainer2">
+            <img class="img" src=<%= @photo.resized_path %> />
+            <div class="favdiv" id =<%= @photo.id %>>
+                <img class="notfavimg" src=<%= static_path(@conn, "/images/heart.png") %> />
+            </div>
+            <%= link "X", to: photo_path(@conn, :delete, @photo), method: :delete, data: [confirm: "Delete image?"], class: "deleteImg" %>
         </div>
-    </a>
+    <% end %>
 </div>
