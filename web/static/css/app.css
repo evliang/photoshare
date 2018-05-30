@@ -17,6 +17,7 @@
 .imgContainer2 {
     display: block;
     position: relative;
+    margin: 5px;
 }
 
 .img {
