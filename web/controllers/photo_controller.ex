@@ -58,9 +58,12 @@ defmodule Photoshare.PhotoController do
   defp add_photo(photo_params) do
     unique_filename = "#{UUID.uuid4(:hex)}-#{normalize_filename(photo_params.filename)}"
     {:ok, img_binary} = File.read(photo_params.path)
+    IO.inspect @lbucket_name
+    IO.inspect unique_filename
 
     aws_result1 =
       ExAws.S3.put_object(@lbucket_name, unique_filename, img_binary)
+      |> IO.inspect
       |> ExAws.request
     
     exif_map = create_exif_map(photo_params.path)
