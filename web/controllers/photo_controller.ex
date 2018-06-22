@@ -8,7 +8,6 @@ defmodule Photoshare.PhotoController do
   @lbucket_name System.get_env("LBUCKET_NAME")
 
   def index(conn, %{"page" => p}) do
-    IO.puts "yo"
     page =
       Photo
       |> order_by(desc: :id)

@@ -1,6 +1,30 @@
 # Photoshare
+A simple service for storing and sharing the photos that matter most to you. The eventual goal is to make a Flickr/Instagram clone (without selling your data).
 
-To start your Phoenix app:
+## Dependencies
+[Elixir](https://elixir-lang.org/install.html) and [Phoenix framework](https://hexdocs.pm/phoenix/installation.html) for the web server
+[Amazon AWS](https://aws.amazon.com/) for S3 storage
+[imagemagick](https://www.imagemagick.org/script/download.php) for image compression
+[PostgreSQL](https://www.postgresql.org/download/) for database
+
+## Configuration
+
+for dev/prod environments, you will need a (environment).secret.exs file to store your postgres connection info, e.g.:
+
+```
+use Mix.Config
+
+# Configure your database
+config :photoshare, Photoshare.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: POSTGRES_USERNAME,
+  password: POSTGRES_PASSWORD,
+  database: POSTGRES_DATABASE,
+  hostname: "localhost",
+  pool_size: 10
+```
+
+## How to Run:
 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
@@ -9,12 +33,12 @@ To start your Phoenix app:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
-
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+## Todo
+replace front-end with ReactJS
+favorites
+batch upload with progress bar
+albums
+(multi-language) captions
+video compression and player
+move older content to Amazon Glacier
+auto-organize album (ideally, automatically by EXIF date + location, type of device)
