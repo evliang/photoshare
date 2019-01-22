@@ -12,7 +12,6 @@ config :photoshare,
 # Configures the endpoint
 config :photoshare, Photoshare.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "pKkSEhMamyTw1QtrS/gmzL4JvlibKfIU1JDwbu1gwuUEDwCPaBme/0o3K5Qhhx98",
   render_errors: [view: Photoshare.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Photoshare.PubSub,
            adapter: Phoenix.PubSub.PG2]
@@ -26,6 +25,11 @@ config :ex_aws,
   access_key_id: [{:system, "AWS_ACCESS_KEY_ID"}, :instance_role],
   secret_access_key: [{:system, "AWS_SECRET_ACCESS_KEY"}, :instance_role],
   region: "us-west-2"
+  # s3: [ 
+  #  scheme: "https://", 
+  #  host: "vphotoshare.s3.amazonaws.com", 
+  #  region: "us-west-2" 
+  # ]
 
 config :ex_aws, :hackney_opts,
   follow_redirect: true,
