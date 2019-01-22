@@ -1,9 +1,9 @@
 # Photoshare
-A simple service for storing and sharing the photos that matter most to you. The eventual goal is to make a Flickr/Instagram clone (without selling your data).
+An Elixir/Phoenix web application for uploading full-sized DSLR-sized photos and viewing/sharing the compressed versions.
 
 ## Dependencies
 [Elixir](https://elixir-lang.org/install.html) and [Phoenix framework](https://hexdocs.pm/phoenix/installation.html) for the web server
-[Amazon AWS](https://aws.amazon.com/) for S3 storage
+[Amazon AWS](https://aws.amazon.com/) account for S3 storage
 [imagemagick](https://www.imagemagick.org/script/download.php) for image compression
 [PostgreSQL](https://www.postgresql.org/download/) for database
 
@@ -34,11 +34,11 @@ config :photoshare, Photoshare.Repo,
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Todo
-replace front-end with ReactJS
-favorites
-batch upload with progress bar
-albums
-(multi-language) captions
-video compression and player
-move older content to Amazon Glacier
-auto-organize album (ideally, automatically by EXIF date + location, type of device)
+- replace front-end with ReactJS
+- favorites
+- batch upload with progress bar
+- albums
+- (multi-language) captions
+- video compression and player
+- move older content to Amazon Glacier
+- auto-organize album (ideally, automatically by EXIF date + location, type of device)
