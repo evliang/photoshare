@@ -2,10 +2,10 @@
 An Elixir/Phoenix web application for uploading full-sized DSLR-sized photos and viewing/sharing the compressed versions.
 
 ## Dependencies
-[Elixir](https://elixir-lang.org/install.html) and [Phoenix framework](https://hexdocs.pm/phoenix/installation.html) for the web server
-[Amazon AWS](https://aws.amazon.com/) account for S3 storage
-[imagemagick](https://www.imagemagick.org/script/download.php) for image compression
-[PostgreSQL](https://www.postgresql.org/download/) for database
+- [Elixir](https://elixir-lang.org/install.html) and [Phoenix framework](https://hexdocs.pm/phoenix/installation.html) for the web server
+- [Amazon AWS](https://aws.amazon.com/) account for S3 storage
+- [imagemagick](https://www.imagemagick.org/script/download.php) for image compression
+- [PostgreSQL](https://www.postgresql.org/download/) for database
 
 ## Configuration
 
@@ -25,7 +25,6 @@ config :photoshare, Photoshare.Repo,
 ```
 
 ## How to Run:
-=======
 
 To start your Phoenix app:
 
